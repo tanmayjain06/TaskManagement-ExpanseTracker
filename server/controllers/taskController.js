@@ -175,10 +175,14 @@ const createSubTask = asyncHandler(async (req, res) => {
 });
 
 const getTasks = asyncHandler(async (req, res) => {
+  const { userId, isAdmin } = req.user;
   const { stage, isTrashed, search } = req.query;
 
   let query = { isTrashed: isTrashed ? true : false };
 
+  if (!isAdmin) {
+    query.team = { $all: [userId] };
+  }
   if (stage) {
     query.stage = stage;
   }
