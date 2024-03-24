@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://mern-task-mnger.netlify.app", "http://localhost:3000", "http://localhost:3001", "https://codewave-mern-task-manager.netlify.app"],
+    origin: ["https://mern-task-manager-app.netlify.app", "http://localhost:3000", "http://localhost:3001"],
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use("/api", routes);
 
 app.use(routeNotFound);
