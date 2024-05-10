@@ -69,7 +69,7 @@ const Trash = () => {
     setMsg("Do you want to restore the selected item?");
     setOpenDialog(true);
   };
-
+  // WE GO HERE ON RESUME
   const deleteRestoreHandler = async () => {
     try {
       let res = null;

@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { setOpenSidebar } from "../redux/slices/authSlice";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const linkData = [
   {
@@ -42,6 +43,11 @@ const linkData = [
     label: "Team",
     link: "team",
     icon: <FaUsers />,
+  },
+  {
+    label: "Status",
+    link: "status",
+    icon: <IoCheckmarkDoneOutline />,
   },
   {
     label: "Trash",

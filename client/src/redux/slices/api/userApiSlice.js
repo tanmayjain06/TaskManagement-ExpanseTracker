@@ -20,6 +20,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    getUserTaskStatus: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/get-status`,
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+
     getNotifications: builder.query({
       query: () => ({
         url: `${USERS_URL}/notifications`,
@@ -73,4 +81,5 @@ export const {
   useChangePasswordMutation,
   useGetNotificationsQuery,
   useMarkNotiAsReadMutation,
+  useGetUserTaskStatusQuery,
 } = userApiSlice;

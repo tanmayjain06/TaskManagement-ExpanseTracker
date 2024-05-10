@@ -2,8 +2,10 @@ import { Dialog } from "@headlessui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
 import { useCreateSubTaskMutation } from "../../redux/slices/api/taskApiSlice";
 import Button from "../Button";
+import Loading from "../Loading";
 import ModalWrapper from "../ModalWrapper";
 import Textbox from "../Textbox";
 
@@ -14,7 +16,7 @@ const AddSubTask = ({ open, setOpen, id }) => {
     formState: { errors },
   } = useForm();
 
-  const [addSbTask] = useCreateSubTaskMutation();
+  const [addSbTask, { isLoading }] = useCreateSubTaskMutation();
 
   const handleOnSubmit = async (data) => {
     try {
@@ -79,20 +81,26 @@ const AddSubTask = ({ open, setOpen, id }) => {
               />
             </div>
           </div>
-          <div className='py-3 mt-4 flex sm:flex-row-reverse gap-4'>
-            <Button
-              type='submit'
-              className='bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 sm:ml-3 sm:w-auto'
-              label='Add Task'
-            />
+          {isLoading ? (
+            <div className='mt-8'>
+              <Loading />
+            </div>
+          ) : (
+            <div className='py-3 mt-4 flex sm:flex-row-reverse gap-4'>
+              <Button
+                type='submit'
+                className='bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 sm:ml-3 sm:w-auto'
+                label='Add Task'
+              />
 
-            <Button
-              type='button'
-              className='bg-white border text-sm font-semibold text-gray-900 sm:w-auto'
-              onClick={() => setOpen(false)}
-              label='Cancel'
-            />
-          </div>
+              <Button
+                type='button'
+                className='bg-white border text-sm font-semibold text-gray-900 sm:w-auto'
+                onClick={() => setOpen(false)}
+                label='Cancel'
+              />
+            </div>
+          )}
         </form>
       </ModalWrapper>
     </>

@@ -7,6 +7,8 @@ import {
   MdKeyboardDoubleArrowUp,
 } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import {
   BGS,
   PRIOTITYSTYELS,
@@ -39,15 +41,17 @@ const TaskCard = ({ task }) => {
             <span className='text-lg'>{ICONS[task?.priority]}</span>
             <span className='uppercase'>{task?.priority} Priority</span>
           </div>
-          {user.isAdmin && <TaskDialog task={task} />}
+          <TaskDialog task={task} />
         </div>
         <>
-          <div className='flex items-center gap-2'>
-            <TaskColor className={TASK_TYPE[task.stage]} />
-            <h4 className='text- line-clamp-1 text-black dark:text-white'>
-              {task?.title}
-            </h4>
-          </div>
+          <Link to={`/task/${task._id}`}>
+            <div className='flex items-center gap-2'>
+              <TaskColor className={TASK_TYPE[task.stage]} />
+              <h4 className='text- line-clamp-1 text-black dark:text-white'>
+                {task?.title}
+              </h4>
+            </div>
+          </Link>
           <span className='text-sm text-gray-600 dark:text-gray-400'>
             {formatDate(new Date(task?.date))}
           </span>
@@ -57,7 +61,7 @@ const TaskCard = ({ task }) => {
         <div className='flex items-center justify-between mb-2'>
           <TaskAssets
             activities={task?.activities?.length}
-            subTasks={task?.subTasks?.length}
+            subTasks={task?.subTasks}
             assets={task?.assets?.length}
           />
 

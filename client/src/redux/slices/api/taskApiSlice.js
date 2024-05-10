@@ -96,6 +96,15 @@ export const postApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+
+    changeSubTaskStatus: builder.mutation({
+      query: (data) => ({
+        url: `${TASKS_URL}/change-status/${data?.id}/${data?.subId}`,
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -111,4 +120,5 @@ export const {
   useGetSingleTaskQuery,
   useGetDasboardStatsQuery,
   useChangeTaskStageMutation,
+  useChangeSubTaskStatusMutation,
 } = postApiSlice;

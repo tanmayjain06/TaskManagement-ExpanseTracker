@@ -160,7 +160,7 @@ const Users = () => {
             onClick={() => setOpen(true)}
           />
         </div>
-        <div className='bg-white dark:bg-[#1f1f1f] px-2 md:px-4 py-4 shadow-md rounded'>
+        <div className='bg-white dark:bg-[#1f1f1f] px-2 md:px-4 py-4 shadow rounded'>
           <div className='overflow-x-auto'>
             <table className='w-full mb-5'>
               <TableHeader />

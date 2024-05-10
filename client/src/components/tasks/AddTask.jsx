@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiImages } from "react-icons/bi";
 import { toast } from "sonner";
+
 import {
   useCreateTaskMutation,
   useUpdateTaskMutation,
@@ -66,6 +67,8 @@ const AddTask = ({ open, setOpen, task }) => {
     stage: "",
     priority: "",
     assets: [],
+    description: "",
+    links: "",
   };
   const {
     register,
@@ -106,7 +109,7 @@ const AddTask = ({ open, setOpen, task }) => {
         stage,
         priority,
       };
-
+      console.log(data, newData);
       const res = task?._id
         ? await updateTask({ ...newData, _id: task._id }).unwrap()
         : await createTask(newData).unwrap();
@@ -129,13 +132,14 @@ const AddTask = ({ open, setOpen, task }) => {
   return (
     <>
       <ModalWrapper open={open} setOpen={setOpen}>
-        <form onSubmit={handleSubmit(handleOnSubmit)} className=''>
+        <form onSubmit={handleSubmit(handleOnSubmit)}>
           <Dialog.Title
             as='h2'
             className='text-base font-bold leading-6 text-gray-900 mb-4'
           >
             {task ? "UPDATE TASK" : "ADD TASK"}
           </Dialog.Title>
+
           <div className='mt-2 flex flex-col gap-6'>
             <Textbox
               placeholder='Task title'
@@ -163,7 +167,6 @@ const AddTask = ({ open, setOpen, task }) => {
                 setSelected={setPriority}
               />
             </div>
-
             <div className='flex gap-4'>
               <div className='w-full'>
                 <Textbox
@@ -196,25 +199,48 @@ const AddTask = ({ open, setOpen, task }) => {
                 </label>
               </div>
             </div>
+
+            <div className='w-full'>
+              <p>Task Description</p>
+              <textarea
+                name='description'
+                {...register("description")}
+                className='w-full bg-transparent px-3 py-1.5 2xl:py-3 border border-gray-300
+            dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700
+            text-gray-900 dark:text-white outline-none text-base focus:ring-2
+            ring-blue-300'
+              ></textarea>
+            </div>
+
+            <div className='w-full'>
+              <p>
+                Add Links{" "}
+                <span className='text- text-gray-600'>
+                  seperated by comma (,)
+                </span>
+              </p>
+              <textarea
+                name='links'
+                {...register("links")}
+                className='w-full bg-transparent px-3 py-1.5 2xl:py-3 border border-gray-300
+            dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700
+            text-gray-900 dark:text-white outline-none text-base focus:ring-2
+            ring-blue-300'
+              ></textarea>
+            </div>
           </div>
 
-          {isLoading || isUpdating ? (
+          {isLoading || isUpdating || uploading ? (
             <div className='py-4'>
               <Loading />
             </div>
           ) : (
-            <div className='bg-gray-50 py-6 sm:flex sm:flex-row-reverse gap-4'>
-              {uploading ? (
-                <span className='text-sm py-2 text-red-500'>
-                  Uploading assets
-                </span>
-              ) : (
-                <Button
-                  label='Submit'
-                  type='submit'
-                  className='bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto'
-                />
-              )}
+            <div className='bg-gray-50 mt-6 mb-4 sm:flex sm:flex-row-reverse gap-4'>
+              <Button
+                label='Submit'
+                type='submit'
+                className='bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto'
+              />
 
               <Button
                 type='button'

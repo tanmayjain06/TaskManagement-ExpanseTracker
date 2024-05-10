@@ -66,3 +66,37 @@ export const BGS = [
   "bg-red-600",
   "bg-green-600",
 ];
+
+export const getCompletedSubTasks = (items) => {
+  const totalCompleted = items?.filter((item) => item?.isCompleted).length;
+
+  return totalCompleted;
+};
+
+export function countTasksByStage(tasks) {
+  let inProgressCount = 0;
+  let todoCount = 0;
+  let completedCount = 0;
+
+  tasks?.forEach((task) => {
+    switch (task.stage.toLowerCase()) {
+      case "in progress":
+        inProgressCount++;
+        break;
+      case "todo":
+        todoCount++;
+        break;
+      case "completed":
+        completedCount++;
+        break;
+      default:
+        break;
+    }
+  });
+
+  return {
+    inProgress: inProgressCount,
+    todo: todoCount,
+    completed: completedCount,
+  };
+}

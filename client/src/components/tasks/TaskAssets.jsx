@@ -2,6 +2,7 @@ import React from "react";
 import { BiMessageAltDetail } from "react-icons/bi";
 import { FaList } from "react-icons/fa";
 import { MdAttachFile } from "react-icons/md";
+import { getCompletedSubTasks } from "../../utils";
 
 const TaskAssets = ({ activities, assets, subTasks }) => {
   return (
@@ -16,7 +17,9 @@ const TaskAssets = ({ activities, assets, subTasks }) => {
       </div>
       <div className='flex gap-1 items-center text-sm text-gray-600 dark:text-gray-400'>
         <FaList />
-        <span>0/{subTasks}</span>
+        <span>
+          {getCompletedSubTasks(subTasks)}/{subTasks?.length}
+        </span>
       </div>
     </div>
   );

@@ -5,7 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { Navbar, Sidebar } from "./components";
-import { Dashboard, Login, TaskDetail, Tasks, Trash, Users } from "./pages";
+import {
+  Dashboard,
+  Login,
+  TaskDetail,
+  Tasks,
+  Trash,
+  Users,
+  StatusPage,
+} from "./pages";
 import { setOpenSidebar } from "./redux/slices/authSlice";
 
 function Layout() {
@@ -96,16 +104,17 @@ const App = () => {
             <Route path='/completed/:status?' element={<Tasks />} />
             <Route path='/in-progress/:status?' element={<Tasks />} />
             <Route path='/todo/:status?' element={<Tasks />} />
-            <Route path='/team' element={<Users />} />
             <Route path='/trashed' element={<Trash />} />
             <Route path='/task/:id' element={<TaskDetail />} />
+            <Route path='/team' element={<Users />} />
+            <Route path='/status' element={<StatusPage />} />
           </Route>
 
           <Route path='/log-in' element={<Login />} />
         </Routes>
       </div>
 
-      <Toaster richColors />
+      <Toaster richColors position='top-center' />
     </main>
   );
 };

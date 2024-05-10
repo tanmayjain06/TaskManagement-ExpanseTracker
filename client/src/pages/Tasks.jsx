@@ -7,6 +7,7 @@ import { Button, Loading, Table, Tabs, Title } from "../components";
 import { AddTask, BoardView, TaskTitle } from "../components/tasks";
 import { useGetAllTaskQuery } from "../redux/slices/api/taskApiSlice";
 import { TASK_TYPE } from "../utils";
+import { useSelector } from "react-redux";
 
 const TABS = [
   { title: "Board View", icon: <MdGridView /> },
@@ -15,6 +16,7 @@ const TABS = [
 
 const Tasks = () => {
   const params = useParams();
+  const { user } = useSelector((state) => state.auth);
   const [searchParams] = useSearchParams();
   const [searchTerm] = useState(searchParams.get("search") || "");
 
@@ -32,7 +34,7 @@ const Tasks = () => {
   useEffect(() => {
     refetch();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, []);
+  }, [open]);
 
   return isLoading ? (
     <div className='py-10'>
@@ -43,7 +45,7 @@ const Tasks = () => {
       <div className='flex items-center justify-between mb-4'>
         <Title title={status ? `${status} Tasks` : "Tasks"} />
 
-        {!status && (
+        {!status && user?.isAdmin && (
           <Button
             label='Create Task'
             icon={<IoMdAdd className='text-lg' />}

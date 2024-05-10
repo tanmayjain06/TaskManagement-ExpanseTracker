@@ -18,6 +18,7 @@ import ConfirmatioDialog from "../ConfirmationDialog";
 import AddSubTask from "./AddSubTask";
 import AddTask from "./AddTask";
 import TaskColor from "./TaskColor";
+import { useSelector } from "react-redux";
 
 const CustomTransition = ({ children }) => (
   <Transition
@@ -117,6 +118,7 @@ const ChangeTaskActions = ({ _id, stage }) => {
 };
 
 export default function TaskDialog({ task }) {
+  const { user } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -199,14 +201,15 @@ export default function TaskDialog({ task }) {
           <CustomTransition>
             <Menu.Items className='absolute p-4 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none'>
               <div className='px-1 py-1 space-y-2'>
-                {items.map((el) => (
+                {items.map((el, index) => (
                   <Menu.Item key={el.label}>
                     {({ active }) => (
                       <button
+                        disabled={index === 0 ? false : !user.isAdmin}
                         onClick={el?.onClick}
                         className={`${
                           active ? "bg-blue-500 text-white" : "text-gray-900"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm disabled:text-gray-400`}
                       >
                         {el.icon}
                         {el.label}
@@ -226,10 +229,11 @@ export default function TaskDialog({ task }) {
                 <Menu.Item>
                   {({ active }) => (
                     <button
+                      disabled={!user.isAdmin}
                       onClick={() => deleteClicks()}
                       className={`${
                         active ? "bg-red-100 text-red-900" : "text-red-900"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm disabled:text-gray-400`}
                     >
                       <RiDeleteBin6Line
                         className='mr-2 h-5 w-5 text-red-600'
