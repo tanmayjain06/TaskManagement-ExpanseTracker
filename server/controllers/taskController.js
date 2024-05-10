@@ -6,7 +6,8 @@ import User from "../models/userModel.js";
 const createTask = asyncHandler(async (req, res) => {
   try {
     const { userId } = req.user;
-    const { title, team, stage, date, priority, assets } = req.body;
+    const { title, team, stage, date, priority, assets, links, description } =
+      req.body;
 
     //alert users of the task
     let text = "New task has been assigned to you";
@@ -25,6 +26,11 @@ const createTask = asyncHandler(async (req, res) => {
       activity: text,
       by: userId,
     };
+    let newLinks = null;
+
+    if (links) {
+      newLinks = links?.split(",");
+    }
 
     const task = await Task.create({
       title,
@@ -34,6 +40,8 @@ const createTask = asyncHandler(async (req, res) => {
       priority: priority.toLowerCase(),
       assets,
       activities: activity,
+      links: newLinks || [],
+      description,
     });
 
     await Notice.create({
@@ -42,12 +50,24 @@ const createTask = asyncHandler(async (req, res) => {
       task: task._id,
     });
 
+    const users = await User.find({
+      _id: team,
+    });
+
+    if (users) {
+      for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+
+        await User.findByIdAndUpdate(user._id, { $push: { tasks: task._id } });
+      }
+    }
+
     res
       .status(200)
       .json({ status: true, task, message: "Task created successfully." });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ status: false, message: error.message });
+    return res.status(500).json({ status: false, message: error.message });
   }
 });
 
@@ -86,9 +106,11 @@ const duplicateTask = asyncHandler(async (req, res) => {
     newTask.team = task.team;
     newTask.subTasks = task.subTasks;
     newTask.assets = task.assets;
+    newTask.links = task.links;
     newTask.priority = task.priority;
     newTask.stage = task.stage;
     newTask.activities = activity;
+    newTask.description = task.description;
 
     await newTask.save();
 
@@ -102,16 +124,23 @@ const duplicateTask = asyncHandler(async (req, res) => {
       .status(200)
       .json({ status: true, message: "Task duplicated successfully." });
   } catch (error) {
-    return res.status(400).json({ status: false, message: error.message });
+    return res.status(500).json({ status: false, message: error.message });
   }
 });
 
 const updateTask = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { title, date, team, stage, priority, assets } = req.body;
+  const { title, date, team, stage, priority, assets, links, description } =
+    req.body;
 
   try {
     const task = await Task.findById(id);
+
+    let newLinks = [];
+
+    if (links) {
+      newLinks = links.split(",");
+    }
 
     task.title = title;
     task.date = date;
@@ -119,6 +148,8 @@ const updateTask = asyncHandler(async (req, res) => {
     task.assets = assets;
     task.stage = stage.toLowerCase();
     task.team = team;
+    task.links = newLinks;
+    task.description = description;
 
     await task.save();
 
@@ -149,6 +180,35 @@ const updateTaskStage = asyncHandler(async (req, res) => {
   }
 });
 
+const updateSubTaskStage = asyncHandler(async (req, res) => {
+  try {
+    const { taskId, subTaskId } = req.params;
+    const { status } = req.body;
+
+    await Task.findOneAndUpdate(
+      {
+        _id: taskId,
+        "subTasks._id": subTaskId,
+      },
+      {
+        $set: {
+          "subTasks.$.isCompleted": status,
+        },
+      }
+    );
+
+    res.status(200).json({
+      status: true,
+      message: status
+        ? "Task has been marked completed"
+        : "Task has been marked uncompleted",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
 const createSubTask = asyncHandler(async (req, res) => {
   const { title, tag, date } = req.body;
   const { id } = req.params;
@@ -158,6 +218,7 @@ const createSubTask = asyncHandler(async (req, res) => {
       title,
       date,
       tag,
+      isCompleted: false,
     };
 
     const task = await Task.findById(id);
@@ -395,6 +456,7 @@ export {
   getTasks,
   postTaskActivity,
   trashTask,
+  updateSubTaskStage,
   updateTask,
   updateTaskStage,
 };

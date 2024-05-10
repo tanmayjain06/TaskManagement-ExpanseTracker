@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
+import Notice from "../models/notis.js";
 import User from "../models/userModel.js";
 import createJWT from "../utils/index.js";
-import Notice from "../models/notis.js";
 
 // POST request - login user
 const loginUser = asyncHandler(async (req, res) => {
@@ -128,7 +128,16 @@ const getNotificationsList = asyncHandler(async (req, res) => {
     .populate("task", "title")
     .sort({ _id: -1 });
 
-  res.status(201).json(notice);
+  res.status(200).json(notice);
+});
+
+// @GET  - get user task status
+const getUserTaskStatus = asyncHandler(async (req, res) => {
+  const tasks = await User.find()
+    .populate("tasks", "title stage")
+    .sort({ _id: -1 });
+
+  res.status(200).json(tasks);
 });
 
 // @GET  - get user notifications
@@ -256,11 +265,12 @@ export {
   activateUserProfile,
   changeUserPassword,
   deleteUserProfile,
+  getNotificationsList,
   getTeamList,
+  getUserTaskStatus,
   loginUser,
   logoutUser,
+  markNotificationRead,
   registerUser,
   updateUserProfile,
-  getNotificationsList,
-  markNotificationRead,
 };
