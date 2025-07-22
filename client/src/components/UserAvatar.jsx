@@ -11,6 +11,7 @@ import { getInitials } from "../utils";
 import AddUser from "./AddUser";
 import ChangePassword from "./ChangePassword";
 
+
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
   const [openPassword, setOpenPassword] = useState(false);

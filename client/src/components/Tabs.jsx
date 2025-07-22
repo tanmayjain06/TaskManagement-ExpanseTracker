@@ -4,6 +4,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 export default function Tabs({ tabs, setSelected, children }) {
   return (
     <div className='w-full px-1 sm:px-0'>

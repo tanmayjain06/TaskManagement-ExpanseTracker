@@ -11,6 +11,7 @@ const StatusPage = () => {
       <Loading />
     </div>;
 
+
   const TableHeader = () => (
     <thead className='border-b border-gray-300 dark:border-gray-600'>
       <tr className='text-black dark:text-white  text-left'>

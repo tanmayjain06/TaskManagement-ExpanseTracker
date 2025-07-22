@@ -2,6 +2,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { getInitials } from "../utils";
 
+
 export default function UserInfo({ user }) {
   return (
     <div className='px-4'>

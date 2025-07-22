@@ -9,6 +9,7 @@ import { useGetAllTaskQuery } from "../redux/slices/api/taskApiSlice";
 import { TASK_TYPE } from "../utils";
 import { useSelector } from "react-redux";
 
+
 const TABS = [
   { title: "Board View", icon: <MdGridView /> },
   { title: "List View", icon: <FaList /> },

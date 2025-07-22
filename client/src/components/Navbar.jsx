@@ -7,6 +7,7 @@ import UserAvatar from "./UserAvatar";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { updateURL } from "../utils";
 
+
 const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();

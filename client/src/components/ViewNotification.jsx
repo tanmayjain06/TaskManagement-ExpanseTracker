@@ -3,6 +3,7 @@ import ModalWrapper from "./ModalWrapper";
 import { Dialog } from "@headlessui/react";
 import Button from "./Button";
 
+
 const ViewNotification = ({ open, setOpen, el }) => {
   return (
     <>
