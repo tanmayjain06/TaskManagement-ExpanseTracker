@@ -3,7 +3,7 @@ import Notice from "../models/notis.js";
 import User from "../models/userModel.js";
 import createJWT from "../utils/index.js";
 
-// POST request - login user
+// POST request is used - login user
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 

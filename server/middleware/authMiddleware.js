@@ -4,6 +4,7 @@ import User from "../models/userModel.js";
 
 const protectRoute = asyncHandler(async (req, res, next) => {
   let token = req.cookies.token;
+  
 
   if (token) {
     try {
