@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { FaQuestion } from "react-icons/fa";
 import { Button, ModalWrapper } from "./";
 
+
 export default function ConfirmatioDialog({
   open,
   setOpen,

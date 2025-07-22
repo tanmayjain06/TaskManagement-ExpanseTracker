@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 
+
 export const Chart = ({ data }) => {
   return (
     <ResponsiveContainer width={"100%"} height={500}>
