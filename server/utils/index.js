@@ -14,3 +14,4 @@ const createJWT = (res, userId) => {
 };
 
 export default createJWT;
+

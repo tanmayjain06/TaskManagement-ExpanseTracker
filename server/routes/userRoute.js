@@ -34,3 +34,4 @@ router
   .delete(protectRoute, isAdminRoute, deleteUserProfile);
 
 export default router;
+
