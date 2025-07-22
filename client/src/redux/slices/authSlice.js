@@ -8,6 +8,7 @@ const initialState = {
   isSidebarOpen: false,
 };
 
+
 const authSlice = createSlice({
   name: "auth",
   initialState,

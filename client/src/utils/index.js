@@ -10,6 +10,7 @@ export const formatDate = (date) => {
   return formattedDate;
 };
 
+
 export function dateFormatter(dateString) {
   const inputDate = new Date(dateString);
 
